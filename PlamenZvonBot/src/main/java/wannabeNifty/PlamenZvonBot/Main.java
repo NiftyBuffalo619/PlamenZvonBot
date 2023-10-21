@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Invite;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -17,6 +18,9 @@ public class Main {
         Guild guild = bot.getGuildById("");
         if (guild != null) {
             guild.upsertCommand("callout", "Send Callout Info by the ID provided").queue();
+            guild.upsertCommand("technika", "Pošle info o zasahující technice dle ID výjezdu")
+                    .addOption(OptionType.STRING, "id", "ID Výjezdu od kterého chcete techniku", true)
+                    .queue();
         }
     }
 }

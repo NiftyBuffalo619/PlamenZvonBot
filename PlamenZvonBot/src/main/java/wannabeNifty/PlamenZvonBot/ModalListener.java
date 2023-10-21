@@ -10,8 +10,14 @@ public class ModalListener extends ListenerAdapter {
         switch (event.getModalId()) {
             case "calloutmodal":
                     String CalloutID = event.getValue("calloutid").getAsString();
-                    event.deferReply();
-                    //event.reply("Vyhledávání výjezdu s ID: " + CalloutID).queue();
+                try {
+                   // GetCallout.GetHZSJMKCalloutByID(event, CalloutID);
+                } catch (Exception e) {
+                    event.getHook().sendMessage("ERROR");
+                    throw new RuntimeException(e);
+                }
+                event.deferReply().queue();
+                //event.reply("Vyhledávání výjezdu s ID: " + CalloutID).queue();
                 break;
         }
     }
