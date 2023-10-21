@@ -43,8 +43,12 @@ public class CommandListener extends ListenerAdapter {
             case "technika":
                 event.deferReply().queue();
                 String ID = event.getOption("id").getAsString();
+                Boolean SendIntoDM = false;
+                if (event.getOption("senddm") != null) {
+                    SendIntoDM = event.getOption("senddm").getAsBoolean();
+                }
                 try {
-                    GetCallout.GetHZSJMKCalloutByID(event, ID);
+                        GetCallout.GetHZSJMKCalloutByID(event, ID, SendIntoDM);
                 }
                 catch (Exception e) {
                     event.getHook().sendMessage("There was an error").setEphemeral(true).queue();

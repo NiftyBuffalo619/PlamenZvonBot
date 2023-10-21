@@ -13,7 +13,7 @@ import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 
 public class GetCallout {
-    public static void GetHZSJMKCalloutByID(@NotNull SlashCommandInteractionEvent event, @NotNull String ID) throws Exception {
+    public static void GetHZSJMKCalloutByID(@NotNull SlashCommandInteractionEvent event, @NotNull String ID, Boolean SendDM) throws Exception {
         if (ID.isEmpty()) {
             event.reply("Error ID Cannot Be Empty");
             throw new Exception("ID Cannot be Empty");
@@ -50,7 +50,14 @@ public class GetCallout {
                     //event.reply(entry.getUnit() + " " + entry.getType() + " " + entry.getReportTime() + "Aktuální počet: " + entry.getActualQuantity());
                 }
                 //event.replyEmbeds(builder.build()).queue();
-                event.getHook().sendMessageEmbeds(builder.build()).queue();
+                if (SendDM) {
+                    event.getUser().openPrivateChannel().flatMap(privateChannel ->
+                            privateChannel.sendMessageEmbeds(builder.build())).queue();
+                            event.getHook().sendMessage("Send into DM's").queue();
+                }
+                else {
+                    event.getHook().sendMessageEmbeds(builder.build()).queue();
+                }
             }
             else if (json.length() == 2) {
                 event.getHook().sendMessage("There isn't a calloud with ID: " + ID).queue();

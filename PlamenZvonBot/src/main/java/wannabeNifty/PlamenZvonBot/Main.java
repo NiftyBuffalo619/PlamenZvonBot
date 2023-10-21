@@ -11,15 +11,16 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        JDA bot = JDABuilder.createDefault("")
+        JDA bot = JDABuilder.createDefault("MTE2NDk3NDEzMjM3MTQwNjg1OA.GOXNnc.ED1PxIJBvutFWVr7aqVIvwMmppLTVyU_A2NcCc")
                 .setActivity(Activity.watching("Hasičské Výjezdy"))
                 .addEventListeners(new CommandListener(), new ModalListener())
                 .build().awaitReady();
-        Guild guild = bot.getGuildById("");
+        Guild guild = bot.getGuildById("702438735241019403");
         if (guild != null) {
             guild.upsertCommand("callout", "Send Callout Info by the ID provided").queue();
             guild.upsertCommand("technika", "Pošle info o zasahující technice dle ID výjezdu")
                     .addOption(OptionType.STRING, "id", "ID Výjezdu od kterého chcete techniku", true)
+                    .addOption(OptionType.BOOLEAN, "senddm", "Chcete-li poslat do DM", false)
                     .queue();
         }
     }
