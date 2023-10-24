@@ -37,7 +37,7 @@ public class GetCallout {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setTitle("Technika");
                 builder.setColor(0xFC2003);
-                builder.setDescription("Zde jsou informace o zasahující technice k danému výjezdu");
+                builder.setDescription(":notepad_spiral:Info\n Zde jsou informace o zasahující technice k danému výjezdu");
                 builder.addField("ID Výjezdu: " + ID, "", false);
                 builder.addField(":fire_engine:Vozidla/Technika", "", false);
                 FireDepartmentData[] data = objectMapper.readValue(json, FireDepartmentData[].class);
@@ -52,7 +52,7 @@ public class GetCallout {
                     else
                         onPlace = ":x:";
                     builder.addField(":fire_engine:" + entry.getUnit(), ":calendar:Čas Ohlášení: " + entry.getReportTime() + "\n" + "Typ: " +
-                                    entry.getType() + "\n" + "Na místě: " + onPlace, false);
+                                    entry.getType() + "\n" + "Na místě: " + onPlace, true);
                     //event.reply(entry.getUnit() + " " + entry.getType() + " " + entry.getReportTime() + "Aktuální počet: " + entry.getActualQuantity());
                 }
                 FireIncident[] incident = GetCalloutByTime(CalloutDate);
@@ -60,7 +60,7 @@ public class GetCallout {
                     for (FireIncident entry : incident) {
                         if (entry.id == ID) {
                             builder.setTitle("## Technika ##" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
-                                    .setDescription("## Stav " + FireIncident.GetCalloutStateById(entry.stavId) + " ##");
+                                    .setDescription("## Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + " ##");
                         }
                         else {
                             builder.setTitle("## Technika ## " + "NOID");
