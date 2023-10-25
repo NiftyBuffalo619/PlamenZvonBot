@@ -59,11 +59,11 @@ public class GetCallout {
                 if (incident != null) {
                     for (FireIncident entry : incident) {
                         if (entry.id == ID) {
-                            builder.setTitle("## Technika ##" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
-                                    .setDescription("## Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + " ##");
+                            builder.setTitle("Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
+                                    .setDescription("Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + "");
                         }
                         else {
-                            builder.setTitle("## Technika ## " + "NOID");
+                            builder.setTitle("Technika" + "NOID");
                         }
                     }
                 }

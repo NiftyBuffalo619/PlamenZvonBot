@@ -2,6 +2,7 @@ package wannabeNifty.PlamenZvonBot;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -51,6 +52,9 @@ public class CommandListener extends ListenerAdapter {
                         GetCallout.GetHZSJMKCalloutByID(event, ID, SendIntoDM);
                 }
                 catch (Exception e) {
+                    EmbedBuilder builder = new EmbedBuilder();
+                    builder.setTitle("Error");
+                    builder.addField("There was an error", e.getMessage(), false);
                     event.getHook().sendMessage("There was an error").setEphemeral(true).queue();
                 }
                 break;
