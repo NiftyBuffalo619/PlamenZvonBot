@@ -1,17 +1,15 @@
 package wannabeNifty.PlamenZvonBot;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import netscape.javascript.JSObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,9 +31,14 @@ public class GetCallout {
             ResponseBody responseBody = response.body();
             String json = responseBody.string();
             if (response.isSuccessful() && responseBody != null) {
+                if (json == null || json.length() == 2) {
+                    event.getHook().sendMessage("There isn't a callout with ID: " + ID).queue();
+                    return;
+                }
                 ObjectMapper objectMapper = new ObjectMapper();
                 EmbedBuilder builder = new EmbedBuilder();
-                builder.setTitle("Technika");
+                String Title = "Technika Empty";
+               // builder.setTitle("Technika");
                 builder.setColor(0xFC2003);
                 builder.setDescription(":notepad_spiral:Info\n Zde jsou informace o zasahující technice k danému výjezdu");
                 builder.addField("ID Výjezdu: " + ID, "", false);
@@ -56,18 +59,25 @@ public class GetCallout {
                     //event.reply(entry.getUnit() + " " + entry.getType() + " " + entry.getReportTime() + "Aktuální počet: " + entry.getActualQuantity());
                 }
                 FireIncident[] incident = GetCalloutByTime(CalloutDate);
-                if (incident != null) {
+                if (incident != null && incident.length > 0) {
                     for (FireIncident entry : incident) {
-                        if (entry.id == ID) {
-                            builder.setTitle("Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
-                                    .setDescription("Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + "");
+                        if (entry.id.equals(ID)) {
+                            /*builder.setTitle("Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
+                                    .setDescription("Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + "");*/
+                            Title = "Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId) + " " +
+                                    "Stav: " + FireIncident.GetCalloutStateById(entry.stavId);
                         }
                         else {
-                            builder.setTitle("Technika" + "NOID");
+                            //builder.setTitle("Technika" + "NOID");
+                            Title = "Technika" + "NOID";
                         }
                     }
                 }
-
+                else {
+                    //builder.setTitle("Technika Null");
+                    Title = "Technika";
+                }
+                builder.setTitle(Title);
                 //event.replyEmbeds(builder.build()).queue();
                 if (SendDM) {
                     event.getUser().openPrivateChannel().flatMap(privateChannel ->
@@ -77,12 +87,6 @@ public class GetCallout {
                 else {
                     event.getHook().sendMessageEmbeds(builder.build()).queue();
                 }
-            }
-            else if (json.length() == 2) {
-                event.getHook().sendMessage("There isn't a callout with ID: " + ID).queue();
-            }
-            else if (responseBody.contentLength() == 2) {
-                event.getHook().sendMessage("There isn't a callout with ID: " + ID).queue();
             }
             else {
                 event.getHook().sendMessage("There isn't a callout with ID: " + ID).queue();
@@ -94,14 +98,9 @@ public class GetCallout {
     }
     public static FireIncident[] GetCalloutByTime(String Date) {
         // Format Like yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime(); // Before addition
-        String formatedDate = dateFormat.format(date);
-        calendar.add(Calendar.HOUR_OF_DAY, 2);
-        Date modifiedDate = calendar.getTime();
-        String formatedModifiedDate = dateFormat.format(modifiedDate);
-        String Url = "https://udalosti.firebrno.cz/api/?casOd=" + formatedDate + "&casDo=" + formatedModifiedDate +
+        String formattedDate = ConvertDate(Date);
+        String formattedModifiedDate = SubstractHours(formattedDate , 3);
+        String Url = "https://udalosti.firebrno.cz/api/?casOd=" + formattedModifiedDate + "&casDo=" + formattedDate +
                 "&krajId=116&stavIds=210&stavIds=400&stavIds=410&stavIds=420&stavIds=430&stavIds=440&stavIds=500&stavIds=510" +
                 "&stavIds=520&stavIds=600&stavIds=610&stavIds=620&stavIds=700&stavIds=710&stavIds=750&stavIds=760&stavIds=780&stavIds=800";
         OkHttpClient client = new OkHttpClient();
@@ -122,6 +121,33 @@ public class GetCallout {
         }
         catch (Exception e) {
             return null;
+        }
+    }
+
+    private static String ConvertDate(String inputDate) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            Date date = format.parse(inputDate);
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            return outputFormat.format(date);
+        }
+        catch (ParseException e) {
+            return "";
+        }
+    }
+    private static String SubstractHours(String formattedDate, int hoursToSubstract) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Date date = format.parse(formattedDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.HOUR_OF_DAY, - hoursToSubstract);
+            Date newDate = calendar.getTime();
+            return format.format(newDate);
+        }
+        catch (ParseException e) {
+            return "";
         }
     }
 }
