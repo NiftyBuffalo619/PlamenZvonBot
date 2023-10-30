@@ -3,6 +3,8 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -16,7 +18,9 @@ import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
+import wannabeNifty.PlamenZvonBot.Helper.Helper;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 public class CommandListener extends ListenerAdapter {
@@ -60,6 +64,24 @@ public class CommandListener extends ListenerAdapter {
                 break;
             case "callout":
                 event.replyModal(modal).queue();
+                break;
+            case "statistika":
+                event.deferReply().queue();
+                try {
+                    Member member = event.getMember();
+                    if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+                        event.getHook().sendMessage("Nemáš oprávnění k použití tohoto příkazu");
+                        break;
+                    }
+                } catch (NullPointerException exception) {
+                    event.getHook().sendMessage("Chyba").queue();
+                }
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                String formatedStartDate = dateFormat.format(Helper.getStartOfCurrentDay());
+                String formatedEndDate = dateFormat.format(Helper.getEndOfCurrentDay());
+
+                event.getChannel().sendMessage("# Statistiky #").queue();
+                event.getHook().sendMessage("Working on it").queue();
                 break;
         }
     }
