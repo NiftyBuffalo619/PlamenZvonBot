@@ -123,8 +123,11 @@ public class GetCallout {
             return null;
         }
     }
+    public static FireIncident[] GetCalloutsFromDay(String StartOfTheDay , String EndOfTheDay) {
+            return null;
+    }
 
-    private static String ConvertDate(String inputDate) {
+    public static String ConvertDate(String inputDate) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
             Date date = format.parse(inputDate);

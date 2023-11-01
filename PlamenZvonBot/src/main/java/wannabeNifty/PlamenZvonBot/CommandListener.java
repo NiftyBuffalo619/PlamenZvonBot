@@ -67,6 +67,11 @@ public class CommandListener extends ListenerAdapter {
                 break;
             case "statistika":
                 event.deferReply().queue();
+                int NumberOfDays = event.getOption("days").getAsInt();
+                if (NumberOfDays > 7 || NumberOfDays < 1) {
+                    event.getHook().sendMessage("Tato hodnota není podporována prosím zadejte hodnotu od 1 do 7").queue();
+                    break;
+                }
                 try {
                     Member member = event.getMember();
                     if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
@@ -80,8 +85,10 @@ public class CommandListener extends ListenerAdapter {
                 String formatedStartDate = dateFormat.format(Helper.getStartOfCurrentDay());
                 String formatedEndDate = dateFormat.format(Helper.getEndOfCurrentDay());
 
-                event.getChannel().sendMessage("# Statistiky #").queue();
-                event.getHook().sendMessage("Working on it").queue();
+                if (NumberOfDays == 1) {
+                    Helper.DoOneDayStatistics(event);
+                }
+                else event.getHook().sendMessage("Více dní zatím není podporováno");
                 break;
         }
     }
