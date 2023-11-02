@@ -97,7 +97,8 @@ public class Helper {
         }
         builder.addField("Počet událostí: " + incidents.length, "  ", true);
         for (FireIncident incident : incidents) {
-            builder.addField("Výjezd ", "  " + incident.id, true);
+            builder.addField(FireIncident.GetCalloutTypeById(incident.typId) + " " + FireIncident.GetCalloutBySubId(incident.podtypId)
+                    , "ID: " + incident.id + " " + incident.poznamkaProMedia, true);
         }
         event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
     }
