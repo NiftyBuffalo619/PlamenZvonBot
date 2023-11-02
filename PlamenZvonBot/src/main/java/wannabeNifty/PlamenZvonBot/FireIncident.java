@@ -15,8 +15,30 @@ public class FireIncident {
     public String podtypId;
     @JsonProperty("casVzniku")
     public String casVzniku;
+    @JsonProperty("casOhlaseni")
+    public String casOhlaseni;
     @JsonProperty("poznamkaProMedia")
     public String poznamkaProMedia;
+    @JsonProperty("kraj")
+    public Kraj kraj;
+    @JsonProperty("okres")
+    public Okres okres;
+    @JsonProperty("obec")
+    public String obec;
+    @JsonProperty("castObce")
+    public String castObce;
+    @JsonProperty("ORP")
+    public String ORP;
+    @JsonProperty("ulice")
+    public String ulice;
+    @JsonProperty("gis1")
+    public String gis1;
+    @JsonProperty("gis2")
+    public String gis2;
+    @JsonProperty("zoc")
+    public Boolean zoc;
+    @JsonProperty("silnice")
+    public String silnice;
     @JsonIgnoreProperties(ignoreUnknown = true)
     public FireIncident() {
 
@@ -212,5 +234,17 @@ public class FireIncident {
             default:
                 return "";
         }
+    }
+    public static class Kraj {
+        @JsonProperty("id")
+        private int id;
+        @JsonProperty("nazev")
+        private String nazev;
+    }
+    public static class Okres {
+        @JsonProperty("id")
+        private int id;
+        @JsonProperty("nazev")
+        private String nazev;
     }
 }

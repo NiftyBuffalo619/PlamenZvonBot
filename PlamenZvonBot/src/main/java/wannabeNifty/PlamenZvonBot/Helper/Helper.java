@@ -3,8 +3,11 @@ package wannabeNifty.PlamenZvonBot.Helper;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
+import wannabeNifty.PlamenZvonBot.FireIncident;
 import wannabeNifty.PlamenZvonBot.GetCallout;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -74,9 +77,10 @@ public class Helper {
 
     public static void DoOneDayStatistics(@NotNull SlashCommandInteractionEvent event) {
         Date date = new Date();
-        String StartOfTheDay = GetCallout.ConvertDate(getStartOfDay(0).toString());
-        String EndOfTheDay = GetCallout.ConvertDate(getEndOfDay(0).toString());
-        GetCallout.GetCalloutsFromDay(StartOfTheDay , EndOfTheDay);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String StartOfTheDay = GetCallout.ConvertDate(format.format(getStartOfCurrentDay()));
+        String EndOfTheDay = GetCallout.ConvertDate(format.format(getEndOfCurrentDay()));
+        FireIncident[] incidents = GetCallout.GetCalloutsFromDay(StartOfTheDay , EndOfTheDay);
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -85,7 +89,16 @@ public class Helper {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle("Statistika pro den " + formattedDate);
         builder.setColor(0xFC2003);
-        builder.addField("Počet událostí: ", "  ", true);
+        if (incidents == null) {
+            builder.addField("Chyba při načítání výjezdů", "  ", true);
+            builder.addField("Time " + StartOfTheDay + "  " + EndOfTheDay, "  ", true);
+            event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
+            return;
+        }
+        builder.addField("Počet událostí: " + incidents.length, "  ", true);
+        for (FireIncident incident : incidents) {
+            builder.addField("Výjezd ", "  " + incident.id, true);
+        }
         event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
     }
 }
