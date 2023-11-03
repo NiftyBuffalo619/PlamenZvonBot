@@ -67,11 +67,29 @@ public class CommandListener extends ListenerAdapter {
                 break;
             case "statistika":
                 event.deferReply().queue();
-                int NumberOfDays = event.getOption("days").getAsInt();
+                int NumberOfDays = 0;
+                try {
+                    NumberOfDays = event.getOption("days").getAsInt();
+                }
+                catch (NullPointerException e) {
+                    NumberOfDays = 1;
+                }
                 if (NumberOfDays > 7 || NumberOfDays < 1) {
                     event.getHook().sendMessage("Tato hodnota není podporována prosím zadejte hodnotu od 1 do 7").queue();
                     break;
                 }
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                String formatedStartDate = dateFormat.format(Helper.getStartOfCurrentDay());
+                String formatedEndDate = dateFormat.format(Helper.getEndOfCurrentDay());
+
+                if (NumberOfDays == 1) {
+                    Helper.DoOneDayStatistics(event);
+                }
+                else event.getHook().sendMessage("Více dní zatím není podporováno");
+                break;
+            case "vyjezdy":
+                event.deferReply().queue();
                 try {
                     Member member = event.getMember();
                     if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
@@ -81,14 +99,10 @@ public class CommandListener extends ListenerAdapter {
                 } catch (NullPointerException exception) {
                     event.getHook().sendMessage("Chyba").queue();
                 }
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                String formatedStartDate = dateFormat.format(Helper.getStartOfCurrentDay());
-                String formatedEndDate = dateFormat.format(Helper.getEndOfCurrentDay());
-
-                if (NumberOfDays == 1) {
-                    Helper.DoOneDayStatistics(event);
-                }
-                else event.getHook().sendMessage("Více dní zatím není podporováno");
+                SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                String formatedStartOfDate = DateFormat.format(Helper.getStartOfCurrentDay());
+                String formatedEndOfDate = DateFormat.format(Helper.getEndOfCurrentDay());
+                Helper.DoOneDayStatistics(event);
                 break;
         }
     }

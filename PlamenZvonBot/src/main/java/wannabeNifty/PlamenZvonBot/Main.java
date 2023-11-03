@@ -25,6 +25,7 @@ public class Main {
                     .queue();
             guild.upsertCommand("statistika", "Pošle statistiku pro daný čas")
                     .addOption(OptionType.INTEGER, "days", "Počet dní ze které chtete statistiku", false).queue();
+            guild.upsertCommand("vyjezdy", "Vypíše výjezdy pro daný den").queue();
         }
     }
 }

@@ -89,17 +89,66 @@ public class Helper {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle("Statistika pro den " + formattedDate);
         builder.setColor(0xFC2003);
+        int VehicleIncidents = 0;
+        int TechnicalHelps = 0;
+        int Fires = 0;
+        int LeakageOfDangerousSubstances = 0;
+        int Rescues = 0;
+        int Others = 0;
+        int ExtraordinaryEvents = 0;
+        int HighAlerts = 0;
+
         if (incidents == null) {
             builder.addField("Chyba při načítání výjezdů", "  ", true);
             builder.addField("Time " + StartOfTheDay + "  " + EndOfTheDay, "  ", true);
-            event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
+            event.getHook().sendMessage("# Výjezdy pro den " + StartOfTheDay + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
             return;
         }
-        builder.addField("Počet událostí: " + incidents.length, "  ", true);
+
         for (FireIncident incident : incidents) {
+            switch (incident.typId) {
+                case "3100":
+                    Fires++;
+                    break;
+                case "3200":
+                    VehicleIncidents++;
+                    break;
+                case "3400":
+                    LeakageOfDangerousSubstances++;
+                    break;
+                case "3500":
+                    TechnicalHelps++;
+                    break;
+                case "3550":
+                    Rescues++;
+                    break;
+                case "3700":
+                    ExtraordinaryEvents++;
+                    break;
+                case "3600", "3800", "3900", "5000":
+                    Others++;
+                    break;
+                case "6000":
+                    HighAlerts++;
+                    break;
+                default:
+                    Others++;
+                    break;
+            }
+        }
+        builder.addField("Celkový počet událostí: " + incidents.length, "  ", true);
+        builder.addField("Mimořádné události: " + HighAlerts, "  ", true);
+        builder.addField(":fire:Požáry: " + Fires, "  ", true);
+        builder.addField("Dopravní Nehody: " + VehicleIncidents, "  ", true);
+        builder.addField("Záchrana osob a zvířat: " + Rescues, "  ", true);
+        builder.addField("Únik nebezpečných látek: " + LeakageOfDangerousSubstances, "  ", true);
+        builder.addField(":wrench:Technické pomoci: " + TechnicalHelps, "  ", true);
+        builder.addField("Mimořádné události: " + ExtraordinaryEvents, "  ", true);
+        builder.addField("Ostatní: " + Others, "  ", true);
+        /*for (FireIncident incident : incidents) {
             builder.addField(FireIncident.GetCalloutTypeById(incident.typId) + " " + FireIncident.GetCalloutBySubId(incident.podtypId)
                     , "ID: " + incident.id + " " + incident.poznamkaProMedia, true);
-        }
+        }*/
         event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
     }
 }
