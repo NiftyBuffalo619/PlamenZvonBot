@@ -103,11 +103,11 @@ public class FireIncident {
             case "3505":
                 return "ODSTRANĚNÍ STROMU";
             case "3214":
-                return "SE ZRANĚNÍM";
+                return "se zraněním";
             case "3921":
                 return "TECHNOLOGICKÝ TEST";
             case "3212":
-                return "UVOLNĚNÍ KOMUNIKACE, ODTAŽENÍ";
+                return "Uvolnění komunikace, odtažení";
             case "3102":
                 return "VÝŠKOVÉ BUDOVY";
             case "3529":

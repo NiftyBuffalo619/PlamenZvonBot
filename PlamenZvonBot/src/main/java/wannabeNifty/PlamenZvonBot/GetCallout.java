@@ -8,11 +8,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
+import wannabeNifty.PlamenZvonBot.Helper.Helper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static wannabeNifty.PlamenZvonBot.Helper.Helper.getEndOfCurrentDay;
+import static wannabeNifty.PlamenZvonBot.Helper.Helper.getStartOfCurrentDay;
 
 public class GetCallout {
     public static void GetHZSJMKCalloutByID(@NotNull SlashCommandInteractionEvent event, @NotNull String ID, Boolean SendDM) throws Exception {
@@ -58,24 +62,26 @@ public class GetCallout {
                                     entry.getType() + "\n" + "Na místě: " + onPlace, true);
                     //event.reply(entry.getUnit() + " " + entry.getType() + " " + entry.getReportTime() + "Aktuální počet: " + entry.getActualQuantity());
                 }
-                FireIncident[] incident = GetCalloutByTime(CalloutDate);
+                //FireIncident[] incident = GetCalloutByTime(CalloutDate);
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                Date start = getStartOfCurrentDay();
+                Date end = getEndOfCurrentDay();
+                String StartOfTheDay = GetCallout.ConvertDate(format.format(start));
+                String EndOfTheDay = GetCallout.ConvertDate(format.format(end));
+                FireIncident[] incident = GetCalloutsFromDay(StartOfTheDay, EndOfTheDay);
                 if (incident != null && incident.length > 0) {
                     for (FireIncident entry : incident) {
-                        if (entry.id.equals(ID)) {
+                        if (entry.id.equals(ID.trim())) {
                             /*builder.setTitle("Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
                                     .setDescription("Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + "");*/
                             Title = "Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId) + " " +
                                     "Stav: " + FireIncident.GetCalloutStateById(entry.stavId);
                         }
-                        else {
-                            //builder.setTitle("Technika" + "NOID");
-                            Title = "Technika" + "NOID";
-                        }
                     }
                 }
                 else {
                     //builder.setTitle("Technika Null");
-                    Title = "Technika";
+                    Title = "Technika Null";
                 }
                 builder.setTitle(Title);
                 //event.replyEmbeds(builder.build()).queue();
@@ -141,7 +147,9 @@ public class GetCallout {
                 FireIncident[] fireIncidents = mapper.readValue(json , FireIncident[].class);
                 return fireIncidents;
             }
-            else return null;
+            else {
+                return null;
+            }
         }
         catch (Exception e) {
             FireIncident incident = new FireIncident();

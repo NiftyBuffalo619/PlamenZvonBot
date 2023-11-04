@@ -86,7 +86,7 @@ public class CommandListener extends ListenerAdapter {
                 if (NumberOfDays == 1) {
                     Helper.DoOneDayStatistics(event);
                 }
-                else event.getHook().sendMessage("Více dní zatím není podporováno");
+                else event.getHook().sendMessage("Více dní zatím není podporováno").queue();
                 break;
             case "vyjezdy":
                 event.deferReply().queue();
