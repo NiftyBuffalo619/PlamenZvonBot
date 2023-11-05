@@ -44,7 +44,7 @@ public class GetCallout {
                 String Title = "Technika Empty";
                // builder.setTitle("Technika");
                 builder.setColor(0xFC2003);
-                builder.setDescription(":notepad_spiral:Info\n Zde jsou informace o zasahující technice k danému výjezdu");
+               // builder.setDescription(":notepad_spiral:Info\n Zde jsou informace o zasahující technice k danému výjezdu");
                 builder.addField("ID Výjezdu: " + ID, "", false);
                 builder.addField(":fire_engine:Vozidla/Technika", "", false);
                 FireDepartmentData[] data = objectMapper.readValue(json, FireDepartmentData[].class);
@@ -74,7 +74,9 @@ public class GetCallout {
                         if (entry.id.equals(ID.trim())) {
                             /*builder.setTitle("Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
                                     .setDescription("Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + "");*/
-                            Title = "Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId) + " " +
+                            //builder.addField(":notepad_spiral:Info", entry.poznamkaProMedia, true);
+                            builder.setDescription(":notepad_spiral:**Info** " + entry.poznamkaProMedia);
+                            Title = "Technika Výjezdu\n" + "Typ: " + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId) + " \n" +
                                     "Stav: " + FireIncident.GetCalloutStateById(entry.stavId);
                         }
                     }

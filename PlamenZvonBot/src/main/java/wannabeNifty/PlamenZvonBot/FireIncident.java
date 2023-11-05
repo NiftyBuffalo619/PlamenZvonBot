@@ -101,9 +101,9 @@ public class FireIncident {
             case "10019":
                 return "Na vlastní požární zbrojnici";
             case "3505":
-                return "ODSTRANĚNÍ STROMU";
+                return ":evergreen_tree:Odstranění stromu";
             case "3214":
-                return "se zraněním";
+                return ":stethoscope:Se zraněním";
             case "3921":
                 return "TECHNOLOGICKÝ TEST";
             case "3212":
@@ -121,7 +121,7 @@ public class FireIncident {
             case "3103":
                 return "PRŮMYSLOVÉ,ZEMĚDĚLSKÉ OBJEKTY,SKLADY";
             case "3213":
-                return "ÚKLID VOZOVKY";
+                return ":broom:ÚKLID VOZOVKY";
             case "3523":
                 return "UZAVŘENÉ PROSTORY, VÝTAH";
             case "3931":
@@ -129,7 +129,7 @@ public class FireIncident {
             case "3404":
                 return "DO OVZDUŠÍ";
             case "10014":
-                return "Požár";
+                return ":fire:Požár";
             case "10001":
                 return "Signalizace EPS";
             case "10015":
@@ -169,7 +169,7 @@ public class FireIncident {
             case "3109":
                 return "POPELNICE, KONTEJNER";
             case "3503":
-                return "DESTRUKCE OBJEKTU";
+                return ":house_abandoned:Destrukce objektu";
             case "3504":
                 return "NÁHRADA NEFUNKČNÍHO ZAŘÍZENÍ";
             case "3525":
