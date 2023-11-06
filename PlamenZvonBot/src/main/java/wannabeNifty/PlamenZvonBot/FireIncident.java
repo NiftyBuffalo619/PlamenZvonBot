@@ -183,7 +183,7 @@ public class FireIncident {
             case "3527":
                 return "ČERPÁNÍ VODY";
             case "3528":
-                return "MĚŘENÍ KONCENTRACÍ";
+                return ":test_tube:Měření Koncentrací";
             case "3541":
                 return "MONITORING";
             default:

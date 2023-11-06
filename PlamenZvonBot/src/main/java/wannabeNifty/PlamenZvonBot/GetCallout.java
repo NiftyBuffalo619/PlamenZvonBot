@@ -42,9 +42,7 @@ public class GetCallout {
                 ObjectMapper objectMapper = new ObjectMapper();
                 EmbedBuilder builder = new EmbedBuilder();
                 String Title = "Technika Empty";
-               // builder.setTitle("Technika");
                 builder.setColor(0xFC2003);
-               // builder.setDescription(":notepad_spiral:Info\n Zde jsou informace o zasahující technice k danému výjezdu");
                 builder.addField("ID Výjezdu: " + ID, "", false);
                 builder.addField(":fire_engine:Vozidla/Technika", "", false);
                 FireDepartmentData[] data = objectMapper.readValue(json, FireDepartmentData[].class);
@@ -60,9 +58,7 @@ public class GetCallout {
                         onPlace = ":x:";
                     builder.addField(":fire_engine:" + entry.getUnit(), ":calendar:Čas Ohlášení: " + entry.getReportTime() + "\n" + "Typ: " +
                                     entry.getType() + "\n" + "Na místě: " + onPlace, true);
-                    //event.reply(entry.getUnit() + " " + entry.getType() + " " + entry.getReportTime() + "Aktuální počet: " + entry.getActualQuantity());
                 }
-                //FireIncident[] incident = GetCalloutByTime(CalloutDate);
                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
                 Date start = getStartOfCurrentDay();
                 Date end = getEndOfCurrentDay();
@@ -72,9 +68,6 @@ public class GetCallout {
                 if (incident != null && incident.length > 0) {
                     for (FireIncident entry : incident) {
                         if (entry.id.equals(ID.trim())) {
-                            /*builder.setTitle("Technika" + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId))
-                                    .setDescription("Stav: " + FireIncident.GetCalloutStateById(entry.stavId) + "");*/
-                            //builder.addField(":notepad_spiral:Info", entry.poznamkaProMedia, true);
                             builder.setDescription(":notepad_spiral:**Info** " + entry.poznamkaProMedia);
                             Title = "Technika Výjezdu\n" + "Typ: " + FireIncident.GetCalloutTypeById(entry.typId) + " " + FireIncident.GetCalloutBySubId(entry.podtypId) + " \n" +
                                     "Stav: " + FireIncident.GetCalloutStateById(entry.stavId);
@@ -82,11 +75,9 @@ public class GetCallout {
                     }
                 }
                 else {
-                    //builder.setTitle("Technika Null");
                     Title = "Technika Null";
                 }
                 builder.setTitle(Title);
-                //event.replyEmbeds(builder.build()).queue();
                 if (SendDM) {
                     event.getUser().openPrivateChannel().flatMap(privateChannel ->
                             privateChannel.sendMessageEmbeds(builder.build())).queue();
