@@ -151,4 +151,25 @@ public class Helper {
         }*/
         event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
     }
+    public static void PrintAllDayCallouts(@NotNull SlashCommandInteractionEvent event) {
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String StartOfTheDay = GetCallout.ConvertDate(format.format(getStartOfCurrentDay()));
+        String EndOfTheDay = GetCallout.ConvertDate(format.format(getEndOfCurrentDay()));
+        FireIncident[] incidents = GetCallout.GetCalloutsFromDay(StartOfTheDay , EndOfTheDay);
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String formattedDate = currentDateTime.format(formatter);
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.setTitle("Všechny výjezdy pro den " + formattedDate);
+        builder.setColor(0xFC2003);
+        for (FireIncident incident : incidents) {
+            builder.addField(FireIncident.GetCalloutTypeById(incident.typId) + " " + FireIncident.GetCalloutBySubId(incident.podtypId),
+                    ":calendar:Čas ohlášení: " + incident.casOhlaseni + "\n" + "ORP:" + incident.ORP + "\n" +
+                            "ID: " + incident.id + "\n" + ":notepad_spiral:Poznámka: " + incident.poznamkaProMedia, true);
+        }
+        event.getHook().sendMessage("# Výjezdy " + Helper.getDecoration() + " #").addEmbeds(builder.build())
+                .setEphemeral(true).queue();
+    }
 }

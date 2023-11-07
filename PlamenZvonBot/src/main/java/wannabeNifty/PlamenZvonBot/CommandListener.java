@@ -102,7 +102,8 @@ public class CommandListener extends ListenerAdapter {
                 SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                 String formatedStartOfDate = DateFormat.format(Helper.getStartOfCurrentDay());
                 String formatedEndOfDate = DateFormat.format(Helper.getEndOfCurrentDay());
-                Helper.DoOneDayStatistics(event);
+                //Helper.DoOneDayStatistics(event);
+                Helper.PrintAllDayCallouts(event);
                 break;
         }
     }
