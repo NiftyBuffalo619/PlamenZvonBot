@@ -143,9 +143,9 @@ public class FireIncident {
             case "10016":
                 return "Povodeň";
             case "3104":
-                return "SHROMAŽDIŠTĚ OSOB";
+                return "Shromaždiště osob";
             case "3110":
-                return "LESNÍ POROST";
+                return "Lesní porost";
             case "3105":
                 return "PODZEMNÍ PROSTORY,TUNELY";
             case "3524":
@@ -165,27 +165,27 @@ public class FireIncident {
             case "3107":
                 return "TRAFOSTANICE, ROZVODNY";
             case "3108":
-                return "DOPRAVNÍ PROSTŘEDKY";
+                return "Dopravní prostředky";
             case "3109":
-                return "POPELNICE, KONTEJNER";
+                return "Popelnice, kontejner";
             case "3503":
                 return ":house_abandoned:Destrukce objektu";
             case "3504":
-                return "NÁHRADA NEFUNKČNÍHO ZAŘÍZENÍ";
+                return "Náhrada Nefunkčního zařízení";
             case "3525":
-                return "OTEVŘENÍ UZAVŘENÝCH PROSTOR";
+                return "Otevření uzavřených prostor";
             case "3501":
-                return "ODSTRANĚNÍ NEBEZPEČNÝCH STAVŮ";
+                return "Odstranění nebezpečných stavů";
             case "10024":
                 return "Činnost jednotky";
             case "3526":
-                return "ODSTRAŇOVÁNÍ PŘEKÁŽEK";
+                return "Odstraňování překážek";
             case "3527":
-                return "ČERPÁNÍ VODY";
+                return "Čerpání vody";
             case "3528":
                 return ":test_tube:Měření Koncentrací";
             case "3541":
-                return "MONITORING";
+                return "Monitoring";
             default:
                 return "";
         }

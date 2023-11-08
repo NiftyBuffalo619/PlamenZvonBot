@@ -143,7 +143,7 @@ public class Helper {
         builder.addField("Záchrana osob a zvířat: " + Rescues, "  ", true);
         builder.addField("Únik nebezpečných látek: " + LeakageOfDangerousSubstances, "  ", true);
         builder.addField(":wrench:Technické pomoci: " + TechnicalHelps, "  ", true);
-        builder.addField("Mimořádné události: " + ExtraordinaryEvents, "  ", true);
+        builder.addField(":rotating_light:Mimořádné události: " + ExtraordinaryEvents, "  ", true);
         builder.addField("Ostatní: " + Others, "  ", true);
         /*for (FireIncident incident : incidents) {
             builder.addField(FireIncident.GetCalloutTypeById(incident.typId) + " " + FireIncident.GetCalloutBySubId(incident.podtypId)
@@ -166,7 +166,7 @@ public class Helper {
         builder.setColor(0xFC2003);
         for (FireIncident incident : incidents) {
             builder.addField(FireIncident.GetCalloutTypeById(incident.typId) + " " + FireIncident.GetCalloutBySubId(incident.podtypId),
-                    ":calendar:Čas ohlášení: " + incident.casOhlaseni + "\n" + "ORP:" + incident.ORP + "\n" +
+                    ":calendar:Čas ohlášení: " + incident.casOhlaseni + "\n" + ":fire_engine:ORP:" + incident.ORP + "\n" +
                             "ID: " + incident.id + "\n" + ":notepad_spiral:Poznámka: " + incident.poznamkaProMedia, true);
         }
         event.getHook().sendMessage("# Výjezdy " + Helper.getDecoration() + " #").addEmbeds(builder.build())
