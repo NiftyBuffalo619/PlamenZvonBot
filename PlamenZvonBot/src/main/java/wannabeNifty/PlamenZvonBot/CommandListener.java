@@ -89,6 +89,7 @@ public class CommandListener extends ListenerAdapter {
                 else event.getHook().sendMessage("Více dní zatím není podporováno").queue();
                 break;
             case "vyjezdy":
+                Main.logger.info(event.getUser().getName() + " used command /vyjezdy");
                 event.deferReply().queue();
                 try {
                     Member member = event.getMember();
