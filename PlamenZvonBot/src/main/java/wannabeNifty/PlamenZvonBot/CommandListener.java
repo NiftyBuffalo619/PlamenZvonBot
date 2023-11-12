@@ -84,9 +84,17 @@ public class CommandListener extends ListenerAdapter {
                 String formatedEndDate = dateFormat.format(Helper.getEndOfCurrentDay());
 
                 if (NumberOfDays == 1) {
+                    Main.logger.info(event.getUser().getName() + " used command /statistika for \u001B[32m" + NumberOfDays + "\u001B[0m");
                     Helper.DoOneDayStatistics(event);
                 }
-                else event.getHook().sendMessage("Více dní zatím není podporováno").queue();
+                else if (NumberOfDays <= 7 && NumberOfDays > 1) {
+                    Main.logger.info(event.getUser().getName() + " used command /statistika for \u001B[32m" + NumberOfDays + "\u001B[0m");
+                    Helper.DoMoreDaysStatistics(event, NumberOfDays);
+                }
+                else {
+                    Main.logger.info(event.getUser().getName() + " used command /statistika for \u001B[32m" + NumberOfDays + "\u001B[0m");
+                    event.getHook().sendMessage("Více dní zatím není podporováno").queue();
+                }
                 break;
             case "vyjezdy":
                 Main.logger.info(event.getUser().getName() + " used command /vyjezdy");

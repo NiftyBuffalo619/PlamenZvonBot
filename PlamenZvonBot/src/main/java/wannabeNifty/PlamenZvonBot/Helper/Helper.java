@@ -10,8 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class Helper {
     public static Date getStartOfCurrentDay() {
@@ -137,7 +136,6 @@ public class Helper {
             }
         }
         builder.addField("Celkový počet událostí: " + incidents.length, "  ", true);
-        builder.addField("Mimořádné události: " + HighAlerts, "  ", true);
         builder.addField(":fire:Požáry: " + Fires, "  ", true);
         builder.addField("Dopravní Nehody: " + VehicleIncidents, "  ", true);
         builder.addField("Záchrana osob a zvířat: " + Rescues, "  ", true);
@@ -171,5 +169,70 @@ public class Helper {
         }
         event.getHook().sendMessage("# Výjezdy " + Helper.getDecoration() + " #").addEmbeds(builder.build())
                 .setEphemeral(true).queue();
+    }
+    public static void DoMoreDaysStatistics(@NotNull SlashCommandInteractionEvent event, int days) {
+        List<FireIncident> WeekIncidents = new ArrayList<>();
+        for (int i = 0;i < days;i++) {
+            Date date = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            String StartOfTheDay = GetCallout.ConvertDate(format.format(getStartOfDay(i)));
+            String EndOfTheDay = GetCallout.ConvertDate(format.format(getEndOfDay(i)));
+            FireIncident[] incidents = GetCallout.GetCalloutsFromDay(StartOfTheDay , EndOfTheDay);
+            for (FireIncident incident : incidents) {
+                WeekIncidents.add(incident);
+            }
+        }
+
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.setTitle("Statistika pro předchozí " + days + " dny");
+        builder.setColor(0xFC2003);
+        int VehicleIncidents = 0;
+        int TechnicalHelps = 0;
+        int Fires = 0;
+        int LeakageOfDangerousSubstances = 0;
+        int Rescues = 0;
+        int Others = 0;
+        int ExtraordinaryEvents = 0;
+        int HighAlerts = 0;
+        for (FireIncident incident : WeekIncidents) {
+            switch (incident.typId) {
+                case "3100":
+                    Fires++;
+                    break;
+                case "3200":
+                    VehicleIncidents++;
+                    break;
+                case "3400":
+                    LeakageOfDangerousSubstances++;
+                    break;
+                case "3500":
+                    TechnicalHelps++;
+                    break;
+                case "3550":
+                    Rescues++;
+                    break;
+                case "3700":
+                    ExtraordinaryEvents++;
+                    break;
+                case "3600", "3800", "3900", "5000":
+                    Others++;
+                    break;
+                case "6000":
+                    HighAlerts++;
+                    break;
+                default:
+                    Others++;
+                    break;
+            }
+        }
+        builder.addField("Celkový počet událostí: " + WeekIncidents.size(), "  ", true);
+        builder.addField(":fire:Požáry: " + Fires, "  ", true);
+        builder.addField("Dopravní Nehody: " + VehicleIncidents, "  ", true);
+        builder.addField("Záchrana osob a zvířat: " + Rescues, "  ", true);
+        builder.addField("Únik nebezpečných látek: " + LeakageOfDangerousSubstances, "  ", true);
+        builder.addField(":wrench:Technické pomoci: " + TechnicalHelps, "  ", true);
+        builder.addField(":rotating_light:Mimořádné události: " + ExtraordinaryEvents, "  ", true);
+        builder.addField("Ostatní: " + Others, "  ", true);
+        event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
     }
 }
