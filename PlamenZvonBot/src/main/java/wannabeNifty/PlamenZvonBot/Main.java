@@ -1,13 +1,8 @@
 package wannabeNifty.PlamenZvonBot;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Invite;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +24,8 @@ public class Main {
             guild.upsertCommand("statistika", "Pošle statistiku pro daný čas")
                     .addOption(OptionType.INTEGER, "days", "Počet dní ze které chtete statistiku", false).queue();
             guild.upsertCommand("vyjezdy", "Vypíše výjezdy pro daný den").queue();
+            guild.upsertCommand("bugreport", "Zde se dá nahlásit chyba").queue();
+            guild.upsertCommand("verze", "Vypíše verzi").queue();
         }
     }
 }

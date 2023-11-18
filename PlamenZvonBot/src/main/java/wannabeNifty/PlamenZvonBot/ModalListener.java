@@ -19,6 +19,9 @@ public class ModalListener extends ListenerAdapter {
                 event.deferReply().queue();
                 //event.reply("Vyhledávání výjezdu s ID: " + CalloutID).queue();
                 break;
+            case "bugreportmodal":
+                event.reply("Děkuji za zaslání bug reportu").queue();
+                break;
         }
     }
 }

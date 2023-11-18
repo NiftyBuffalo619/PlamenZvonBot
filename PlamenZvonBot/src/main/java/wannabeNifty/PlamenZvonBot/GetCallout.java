@@ -8,13 +8,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
-import wannabeNifty.PlamenZvonBot.Helper.Helper;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import static wannabeNifty.PlamenZvonBot.Helper.Helper.getEndOfCurrentDay;
 import static wannabeNifty.PlamenZvonBot.Helper.Helper.getStartOfCurrentDay;
 

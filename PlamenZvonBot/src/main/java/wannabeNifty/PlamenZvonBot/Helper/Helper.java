@@ -5,8 +5,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.jetbrains.annotations.NotNull;
 import wannabeNifty.PlamenZvonBot.FireIncident;
 import wannabeNifty.PlamenZvonBot.GetCallout;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -143,10 +141,6 @@ public class Helper {
         builder.addField(":wrench:Technické pomoci: " + TechnicalHelps, "  ", true);
         builder.addField(":rotating_light:Mimořádné události: " + ExtraordinaryEvents, "  ", true);
         builder.addField("Ostatní: " + Others, "  ", true);
-        /*for (FireIncident incident : incidents) {
-            builder.addField(FireIncident.GetCalloutTypeById(incident.typId) + " " + FireIncident.GetCalloutBySubId(incident.podtypId)
-                    , "ID: " + incident.id + " " + incident.poznamkaProMedia, true);
-        }*/
         event.getHook().sendMessage("# Statistiky " + Helper.getDecoration() + " #").addEmbeds(builder.build()).queue();
     }
     public static void PrintAllDayCallouts(@NotNull SlashCommandInteractionEvent event) {

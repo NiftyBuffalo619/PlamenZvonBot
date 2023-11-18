@@ -32,13 +32,6 @@ public class CommandListener extends ListenerAdapter {
                 .setMaxLength(50)
                 .setRequired(true)
                 .build();
-        /*SelectOption option = SelectOption.of("HZS Jihomoravského Kraje", "hzsjmk");
-        SelectOption option2 = SelectOption.of("HZS Olomouckého Kraje", "hzsok");
-        SelectOption option3 = SelectOption.of("HZS Pardubického Kraje", "hzspk");
-
-        StringSelectMenu selectmenu = StringSelectMenu.create("county")
-                .addOptions(option,option2,option3)
-                .build();*/ // Selections aren't supported in Modals
         Modal modal = Modal.create("calloutmodal", "Výjezd")
                 .addActionRows(
                         ActionRow.of(InputCalloutID)
@@ -111,8 +104,23 @@ public class CommandListener extends ListenerAdapter {
                 SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                 String formatedStartOfDate = DateFormat.format(Helper.getStartOfCurrentDay());
                 String formatedEndOfDate = DateFormat.format(Helper.getEndOfCurrentDay());
-                //Helper.DoOneDayStatistics(event);
                 Helper.PrintAllDayCallouts(event);
+                break;
+            case "bugreport":
+                TextInput reportText = TextInput.create("bugreporttext", "Popis", TextInputStyle.PARAGRAPH)
+                        .setPlaceholder("Zde popiš chybu")
+                        .setMinLength(1)
+                        .setMaxLength(250)
+                        .setRequired(true)
+                        .build();
+                Modal BugReportModal = Modal.create("bugreportmodal", "Nahlásit Chybu")
+                        .addActionRows(
+                                ActionRow.of(reportText)
+                        ).build();
+                event.replyModal(BugReportModal).queue();
+                break;
+            case "verze":
+                event.reply("Verze 1.0").queue();
                 break;
         }
     }
