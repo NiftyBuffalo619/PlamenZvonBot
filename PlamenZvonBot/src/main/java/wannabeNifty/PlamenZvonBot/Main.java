@@ -6,10 +6,12 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import wannabeNifty.PlamenZvonBot.config.Config;
 
 public class Main {
-    final static Logger logger = LoggerFactory.getLogger(Main.class);
+    public final static Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws InterruptedException {
+        Config.Config();
         JDA bot = JDABuilder.createDefault("")
                 .setActivity(Activity.watching("Hasičské Výjezdy"))
                 .addEventListeners(new CommandListener(), new ModalListener())
