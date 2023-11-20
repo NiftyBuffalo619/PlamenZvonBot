@@ -12,11 +12,11 @@ public class Main {
     public final static Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws InterruptedException {
         Config.Config();
-        JDA bot = JDABuilder.createDefault("")
+        JDA bot = JDABuilder.createDefault(Config.Token)
                 .setActivity(Activity.watching("Hasičské Výjezdy"))
                 .addEventListeners(new CommandListener(), new ModalListener())
                 .build().awaitReady();
-        Guild guild = bot.getGuildById("");
+        Guild guild = bot.getGuildById(Config.GuildId);
         if (guild != null) {
             guild.upsertCommand("callout", "Send Callout Info by the ID provided").queue();
             guild.upsertCommand("technika", "Pošle info o zasahující technice dle ID výjezdu")

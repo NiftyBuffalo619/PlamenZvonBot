@@ -1,3 +1,5 @@
 *.jar
 *.class
 /target/
+config.json
+PlamenZvonBot/config.json

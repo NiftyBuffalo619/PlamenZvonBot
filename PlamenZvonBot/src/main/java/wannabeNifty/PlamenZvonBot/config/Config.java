@@ -30,8 +30,8 @@ public class Config {
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode RootNode = mapper.readTree(new File(Path));
-            String Token = RootNode.path("Token").asText();
-            String GuildId = RootNode.path("GuildId").asText();
+            Token = RootNode.path("Token").asText();
+            GuildId = RootNode.path("GuildId").asText();
             // Other properties soon
         }
         catch (Exception e) {
@@ -41,6 +41,7 @@ public class Config {
     public static void Config() {
         if (isConfigFileExists()) {
             LoadConfigFile(CreateConfigPath());
+            Main.logger.info("Config file path " + CreateConfigPath());
         }
         else {
             Main.logger.error("Error while loading config file");
