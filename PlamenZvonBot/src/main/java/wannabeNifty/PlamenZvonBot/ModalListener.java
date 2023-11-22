@@ -1,8 +1,10 @@
 package wannabeNifty.PlamenZvonBot;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import wannabeNifty.PlamenZvonBot.config.Config;
 
 public class ModalListener extends ListenerAdapter {
     @Override
@@ -21,6 +23,17 @@ public class ModalListener extends ListenerAdapter {
                 break;
             case "bugreportmodal":
                 event.reply("Děkuji za zaslání bug reportu").queue();
+                event.getJDA().retrieveUserById(Config.AdminUserId).queue((User) -> {
+                    User.openPrivateChannel().queue((privateChannel -> {
+                        String BugMessage = event.getValue("bugreporttext").getAsString();
+                        EmbedBuilder builder = new EmbedBuilder();
+                        builder.setTitle("\t Bug Report");
+                        builder.setColor(0xFC2003);
+                        builder.setAuthor(event.getInteraction().getUser().getName(), null , event.getInteraction().getUser().getAvatarUrl());
+                        builder.addField(":notepad_spiral:Bug Message", BugMessage, false);
+                        privateChannel.sendMessageEmbeds(builder.build()).queue();
+                    }));
+                });
                 break;
         }
     }

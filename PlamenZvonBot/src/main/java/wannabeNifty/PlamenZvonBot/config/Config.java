@@ -9,6 +9,7 @@ import java.io.File;
 public class Config {
     public static String Token;
     public static String GuildId;
+    public static String AdminUserId;
     public static String CreateConfigPath() {
         String CurrentWorkingDir = System.getProperty("user.dir");
         String ConfigFilePath = CurrentWorkingDir + File.separator + "config.json";
@@ -32,6 +33,7 @@ public class Config {
             JsonNode RootNode = mapper.readTree(new File(Path));
             Token = RootNode.path("Token").asText();
             GuildId = RootNode.path("GuildId").asText();
+            AdminUserId = RootNode.path("AdminUserId").asText();
             // Other properties soon
         }
         catch (Exception e) {
